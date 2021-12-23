@@ -58,7 +58,7 @@ Note: the Examples folder is not accessible by default. You need to clone the re
 ## Accessing Private Repositories from the server side
 
 
-### Generate a github access token from gihub
+### Generate a github access token from github
  * Go to your account settings on GitHub and select "Developer Settings" from the left panel.
  * On the left, select "Personal access tokens"
  * Click the "Generate new token" button, and enter your password.
