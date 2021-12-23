@@ -6,7 +6,7 @@ It will allow non-logged users to access the ```Examples``` folder. <br/>
 When you install this extension, an additional filebrowser tab will be added to the left area of JupyterLab. This filebrowser allows you to select GitHub organizations and users, browse their repositories, and open the files in those repositories. If those files are notebooks, you can run them just as you would any other notebook. You can also attach a kernel to text files and run those. Basically, you should be able to open any file in a repository that JupyterLab can handle.
 
 ## Prerequisites
-----------
+
 
 * JupyterLab
 * A Github account for the server extension to work
@@ -14,7 +14,7 @@ When you install this extension, an additional filebrowser tab will be added to 
 As S2 is using JupyterLab version older than 3.0, we will use some old commands to install the extension.
 
 ## Installation
-------------
+
 
 Install the serverextension using pip, and then enable it:
 ```
@@ -36,7 +36,7 @@ jupyter serverextension enable --sys-prefix jupyterlab_github
 * Further build the docker image and give it your custom tag before pushing it to the DockerHub.
 
 ## Usage
------------
+
 
 After Installing the extension and building the docker image, we can easily make the deployment. 
 <br/>
@@ -56,7 +56,7 @@ Next step, just fill in the ```Owner/repository``` in the form and save, you wil
 Note: the Examples folder is not accessible by default. You need to clone the repository ,thus making it public to access or simply use ```ThatOneTallKid/nm``` to ease up the process.
 
 ## Accessing Private Repositories from the server side
------------------------------
+
 
 ### Generate a github access token from gihub
  * Go to your account settings on GitHub and select "Developer Settings" from the left panel.
