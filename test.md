@@ -1,4 +1,27 @@
-# Installing the Jupyterlab-github extension for JupyterLab
+# Loading examples from the Github
+
+There are two ways to do so. In this wiki we will explore both the ways.
+# 1. Clone the github repository and load the examples
+
+We can simply clone the github repository during the build time and move the Examples to our workplace, but there is a catch to it. As the S2-dev repository is private cloning the repository will require an SSH with private access. Although this thing can be dangerous but some articles on the web suggest that , it can be safely implemented using Buildkit.
+Reference to the articher [here](https://vsupalov.com/build-docker-image-clone-private-repo-ssh-key/)
+```
+Note That this method is yet to be tested and will be implemented soon
+```
+
+To avoid all these steps we can simpley clone a public copy of s2-dev ```Examples``` via this repository by making changes in kuberenetes configuration file ```config-s2x.yaml```.
+
+After making Changes this section should look like this
+
+```
+lifecycleHooks:
+    postStart:
+      exec:
+        command: ['sh','-c', 'cp -r ~/../.jupyter_kotlin ~/ && cp -r ~/../.m2  ~/ && mkdir -p ~/workspace/Examples  && git clone https://github.com/ThatOneTallKid/nm && cp -r ~/nm/ ~/workspace/Examples/ && rm -r ~/nm && gsutil cp gs://s2-bucket/READ_ME_FIRST.ipynb /home/jovyan/workspace/READ_ME_FIRST.ipynb && ']
+
+```
+
+# 2. Installing the Jupyterlab-github extension for JupyterLab
 
 
 Jupyterlab-github is an extension for accesing Github repositories from JupyterLab.
