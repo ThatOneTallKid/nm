@@ -14,10 +14,7 @@ To avoid all these steps we can simpley clone a public copy of s2-dev ```Example
 After making Changes this section should look like this
 
 ```
-lifecycleHooks:
-    postStart:
-      exec:
-        command: ['sh','-c', 'cp -r ~/../.jupyter_kotlin ~/ && cp -r ~/../.m2  ~/ && mkdir -p ~/workspace/Examples  && git clone https://github.com/ThatOneTallKid/nm && cp -r ~/nm/ ~/workspace/Examples/ && rm -r ~/nm && gsutil cp gs://s2-bucket/READ_ME_FIRST.ipynb /home/jovyan/workspace/READ_ME_FIRST.ipynb && ']
+Work in Progress
 
 ```
 
