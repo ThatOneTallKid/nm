@@ -9,14 +9,75 @@ Reference to the articher [here](https://vsupalov.com/build-docker-image-clone-p
 Note That this method is yet to be tested and will be implemented soon
 ```
 
-To avoid all these steps we can simpley clone a public copy of s2-dev ```Examples``` via this repository by making changes in kuberenetes configuration file ```config-s2x.yaml```.
+To avoid all these steps we can simply clone a public copy of s2-dev ```Examples``` via this repository by making changes in kuberenetes configuration file ```config-s2x.yaml``` and the Dockerfile.
 
-After making Changes this section should look like this
-
-```
-Work in Progress
+### After making Changes this section of the yaml file should look like this
 
 ```
+  postStart:
+      exec:
+        command: ['sh','-c', 'cp -r ~/../.jupyter_kotlin ~/ && cp -r ~/../.m2  ~/  && cd ~/workspace/Examples/ && git clone https://github.com/ThatOneTallKid/nm && gsutil cp gs://s2-bucket/READ_ME_FIRST.ipynb /home/jovyan/workspace/READ_ME_FIRST.ipynb ']
+```
+### Update the Dockerfile
+
+```
+ ARG BASE_IMAGE=jupyterhub/singleuser
+FROM $BASE_IMAGE
+USER root
+RUN python3 -m pip install jupyterhub jupyterlab && \
+    jupyter serverextension enable --py jupyterlab --sys-prefix  && \
+    pip install kotlin-jupyter-kernel && \
+    python -m pip install numpy && \
+    python -m pip install matplotlib && \
+    pip install tornado==6.1 && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends git openjdk-11-jdk gnuplot gcc curl gnupg lsb-release && \
+    export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`  && \
+    echo "deb http://packages.cloud.google.com/apt gcsfuse-`lsb_release -c -s` main" | tee /etc/apt/sources.list.d/gcsfuse.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+    apt-get update && apt-get install -y gcsfuse
+
+# download and install Google Cloud SDK
+RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
+
+RUN mkdir -p /usr/local/gcloud \
+    && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
+    && /usr/local/gcloud/google-cloud-sdk/install.sh \
+    && apt-get -y clean all \
+    && rm -rf /var/lib/apt/lists/*
+
+ADD ./kotlin/kernel.json /opt/conda/share/jupyter/kernels/kotlin
+ADD ./kotlin/.m2 /home/.m2
+ADD ./kotlin/.jupyter_kotlin /home/.jupyter_kotlin
+# add key file for accessing Google Storage
+ADD ./key-file.json /home/key-file.json
+
+USER jovyan
+RUN git clone https://github.com/SpencerPark/IJava.git && \
+    cd IJava/ && \
+    ./gradlew installKernel
+
+# cleanup
+USER root
+RUN rm -r /home/jovyan/work && \
+    apt-get purge -y --auto-remove git curl  && \
+    mkdir /home/jovyan/workspace && \
+    chown -R jovyan: /home/jovyan/workspace/ && \ 
+    rm -r /home/jovyan/IJava/     
+
+USER jovyan
+CMD   ["jupyterhub-singleuser"] 
+
+# add JAVA_HOME and PATH environment variables
+# do we still need these?
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
+
+```
+
+After making changes to the Dockerfile, the image must be pushed to the dockerhub.
+
+Now, after updating both the Dockerfile and config-s2x.yaml file, the container is ready for deployment.
 
 # 2. Installing the Jupyterlab-github extension for JupyterLab
 
