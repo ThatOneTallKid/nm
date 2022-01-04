@@ -79,6 +79,19 @@ After making changes to the Dockerfile, the image must be pushed to the dockerhu
 
 Now, after updating both the Dockerfile and config-s2x.yaml file, the container is ready for deployment.
 
+### If you further run into certain problems, you can simply check logs in your cloud shell
+
+Get logs by typing the following command:
+
+```
+kubectl logs deployment/<name-of-deployment>
+```
+
+get name of your deployments:
+```
+kubectl get deployments
+```
+
 # 2. Installing the Jupyterlab-github extension for JupyterLab
 
 
