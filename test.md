@@ -1,6 +1,11 @@
 # Loading examples from the Github
 
-There are two ways to do so. In this wiki we will explore both the ways.
+There are two ways to do so. 
+1. By cloning the s2 ```Examples``` from github repo and loading it to workspace
+2. Use the extension (jupyterhub_github)
+
+In this wiki, we will explore both ways.
+
 # 1. Clone the github repository and load the examples
 
 We can simply clone the github repository during the build time and move the Examples to our workplace, but there is a catch to it. As the S2-dev repository is private cloning the repository will require an SSH with private access. Although this thing can be dangerous but some articles on the web suggest that , it can be safely implemented using Buildkit.
