@@ -65,8 +65,7 @@ RUN git clone https://github.com/SpencerPark/IJava.git && \
 # cleanup
 USER root
 RUN rm -r /home/jovyan/work && \
-    apt-get purge -y --auto-remove git curl  && \
-    mkdir /home/jovyan/workspace && \
+    mkdir /home/jovyan/workspace/Examples && \
     chown -R jovyan: /home/jovyan/workspace/ && \ 
     rm -r /home/jovyan/IJava/     
 
