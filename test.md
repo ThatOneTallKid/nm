@@ -8,10 +8,11 @@ In this wiki, we will explore both ways.
 
 # 1. Clone the github repository and load the examples
 
-We can simply clone the github repository during the build time and move the Examples to our workplace, but there is a catch to it. As the S2-dev repository is private cloning the repository will require an SSH with private access. Although this thing can be dangerous but some articles on the web suggest that , it can be safely implemented using Buildkit.
-Reference to the articher [here](https://vsupalov.com/build-docker-image-clone-private-repo-ssh-key/)
+We can simply clone the github repository during the build time and move the Examples to our workplace, but there is a catch to it. As the S2-dev repository is private cloning the repository will require you github private access key. 
+
+### Note that the access key is a highly sensitive thing so use it very carefully.
 ```
-Note That this method is yet to be tested and will be implemented soon
+command: ['sh','-c', 'cp -r ~/../.jupyter_kotlin ~/ && cp -r ~/../.m2  ~/ && rm -rf ~/s2-dev && git clone https://<Your_access_key>@github.com/nmltd/s2-dev.git && cp -r ~/s2-dev/Examples ~/workspace/ ']
 ```
 
 To avoid all these steps we can simply clone a public copy of s2-dev ```Examples``` via this repository by making changes in kuberenetes configuration file ```config-s2x.yaml``` and the Dockerfile.
@@ -21,7 +22,7 @@ To avoid all these steps we can simply clone a public copy of s2-dev ```Examples
 ```
   postStart:
       exec:
-        command: ['sh','-c', 'cp -r ~/../.jupyter_kotlin ~/ && cp -r ~/../.m2  ~/  && cd ~/workspace/Examples/ && git clone https://github.com/ThatOneTallKid/nm && gsutil cp gs://s2-bucket/READ_ME_FIRST.ipynb /home/jovyan/workspace/READ_ME_FIRST.ipynb ']
+        command: ['sh','-c', 'cp -r ~/../.jupyter_kotlin ~/ && cp -r ~/../.m2  ~/  && cd ~/workspace/Examples/ && git clone https://github.com/ThatOneTallKid/nm ']
 ```
 ### Update the Dockerfile
 
