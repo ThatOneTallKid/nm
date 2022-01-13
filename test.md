@@ -66,21 +66,22 @@ ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 ```
+<br/>
 
-### Note that the access key is a highly sensitive thing so use it very carefully.
+### Make changes to `config-s2x.yaml` file
+
+* Note that the access key is a highly sensitive thing so use it very carefully.
 ```
 command: ['sh','-c', 'cp -r ~/../.jupyter_kotlin ~/ && cp -r ~/../.m2  ~/ && rm -rf ~/s2-dev && git clone https://<Your_access_key>@github.com/nmltd/s2-dev.git && cp -r ~/s2-dev/Examples ~/workspace/ ']
 ```
 <br/>
 
-If you do not want to use your own access token you can simple change these few line in your `config-s2x.yaml` file.
 
-### After making Changes this section of the yaml file should look like this
+
+### If you wish to not use your own access tiken you can add the following line instead
 
 ```
-  postStart:
-      exec:
-        command: ['sh','-c', 'cp -r ~/../.jupyter_kotlin ~/ && cp -r ~/../.m2  ~/  && cd ~/workspace/Examples/ && git clone https://github.com/ThatOneTallKid/nm ']
+     command: ['sh','-c', 'cp -r ~/../.jupyter_kotlin ~/ && cp -r ~/../.m2  ~/  && cd ~/workspace/Examples/ && git clone https://github.com/ThatOneTallKid/nm ']
 ```
 
 
